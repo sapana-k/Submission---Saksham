@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:saksham/constants/userCard.dart';
 //import '../../constants/modifiedCards.dart';
 import '../../constants/const.dart';
-import '../map/mapFrontend.dart';
+//import '../map/mapFrontend.dart';
 
 class FindFriends extends StatefulWidget {
   const FindFriends({Key? key}) : super(key: key);

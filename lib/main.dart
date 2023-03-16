@@ -1,12 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:saksham/screens/authentication/login.dart';
 import 'package:saksham/screens/authentication/registration.dart';
-import 'package:saksham/screens/map/mapFrontend.dart';
+//import 'package:saksham/screens/map/mapFrontend.dart';
 import 'package:saksham/screens/map/mapbackend.dart';
 import 'package:saksham/screens/social%20networking/chattingScreen.dart';
 import 'package:saksham/screens/social%20networking/findFriends.dart';
 import 'package:saksham/screens/usefulInfo/govSchemes.dart';
 import 'package:saksham/screens/usefulInfo/insuranceSchemes.dart';
+import 'package:saksham/screens/usefulInfo/mainFile.dart';
 import 'package:saksham/screens/usefulInfo/ngos.dart';
 import 'package:saksham/screens/usefulInfo/RTI.dart';
 import 'package:saksham/screens/usefulInfo/transportFacilities.dart';
@@ -33,9 +34,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: FindFriends(),
+      home: MainFile(),
       routes: {
-        MapPage1.id: (context) => MapPage1(),
+        // MapPage1.id: (context) => MapPage1(),
+        MainFile.id: (context) => MainFile(),
         MapPage2.id: (context) => MapPage2(),
         GovSchemesPage.id: (context) => GovSchemesPage(),
         RTIPage.id: (context) => RTIPage(),

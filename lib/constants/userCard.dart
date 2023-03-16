@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:saksham/screens/map/mapFrontend.dart';
+import 'package:saksham/screens/map/mapBackend.dart';
 
 import 'const.dart';
 
@@ -74,7 +74,7 @@ class UserCard extends StatelessWidget {
                               size: 32.0,
                             ),
                             onTap: () {
-                              Navigator.pushNamed(context, MapPage1.id);
+                              Navigator.pushNamed(context, MapPage2.id);
                             }),
                       ),
                     ],

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:saksham/screens/map/mapFrontend.dart';
+import 'package:saksham/screens/map/mapBackend.dart';
 import '../../constants/const.dart';
 import '../../constants/modifiedCards.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -98,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           final newUser =
                               await _auth.signInWithEmailAndPassword(
                                   email: email, password: password);
-                          Navigator.pushNamed(context, MapPage1.id);
+                          Navigator.pushNamed(context, MapPage2.id);
                           setState(() {
                             showSpinner = false;
                           });

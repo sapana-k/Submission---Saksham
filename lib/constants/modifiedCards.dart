@@ -16,12 +16,16 @@ class RoundCards extends StatelessWidget {
             Icon(
               icon,
               color: Color(0xFF221D46),
-              size: 50.0,
+              size: 66.0,
             ),
             SizedBox(
               height: 3.0,
             ),
-            Text(text)
+            Text(
+              text,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 17.0),
+            )
           ],
         ),
       ),
