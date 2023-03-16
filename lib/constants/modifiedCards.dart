@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'const.dart';
+
 class RoundCards extends StatelessWidget {
   IconData icon;
   String text;
@@ -54,7 +56,7 @@ class tileCard extends StatelessWidget {
               children: [
                 Icon(
                   icon,
-                  color: Color(0xFF830E38),
+                  color: color1,
                   size: 60.0,
                 ),
                 SizedBox(
@@ -64,7 +66,7 @@ class tileCard extends StatelessWidget {
                   text,
                   style: TextStyle(
                     fontSize: 16.0,
-                    color: Color(0xFF830E38),
+                    color: color1,
                   ),
                 )
               ],

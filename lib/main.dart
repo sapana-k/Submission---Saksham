@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: welcomePage(),
+      home: FindFriends(),
       routes: {
         MapPage1.id: (context) => MapPage1(),
         MapPage2.id: (context) => MapPage2(),
