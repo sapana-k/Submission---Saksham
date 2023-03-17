@@ -25,10 +25,24 @@ class _InsuranceSchemePageState extends State<InsuranceSchemePage> {
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              ListTile(title: Text('fact 1')),
-              ListTile(title: Text('fact 2')),
-              ListTile(title: Text('fact 3')),
-              ListTile(title: Text('fact 4')),
+              ListTile(
+                  title: Text(
+                      'Swavlamban Health Insurance Scheme for Persons with Disabilities')),
+              ListTile(
+                  title: Text(
+                      'Income Tax 80DD Deduction: Dependant who is a Person With Disability')),
+              ListTile(
+                  title: Text(
+                      'Incentives to private sector for employing persons with disability')),
+              ListTile(
+                  title: Text(
+                      'Social Security Scheme for Persons with disabilities : Karnataka')),
+              ListTile(
+                  title: Text(
+                      'Financial Assistance to Parents Association for Mentally Retarded Persons')),
+              ListTile(
+                  title:
+                      Text('Equal insurance benefits for differently-abled')),
             ],
           ),
         ),

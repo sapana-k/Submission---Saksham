@@ -92,7 +92,7 @@ class _MainFileState extends State<MainFile> {
       ),
       backgroundColor: backgroundcolor1,
       appBar: AppBar(
-        title: Text('Saksham'),
+        title: Text('Useful Information'),
         backgroundColor: color1,
       ),
       body: Center(
@@ -100,30 +100,28 @@ class _MainFileState extends State<MainFile> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Expanded(
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: GestureDetector(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, Transport.id);
+                      },
+                      child: RoundCards(
+                          icon: Icons.emoji_transportation,
+                          text: 'Transport Facilites'),
+                    ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, Transport.id);
+                          Navigator.pushNamed(context, GovSchemesPage.id);
                         },
                         child: RoundCards(
-                            icon: Icons.emoji_transportation,
-                            text: 'Transport Facilites'),
-                      ),
-                    ),
-                    Expanded(
-                      child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, GovSchemesPage.id);
-                          },
-                          child: RoundCards(
-                              icon: Icons.description,
-                              text: 'Gov. schemes for PWD')),
-                    ),
-                  ],
-                ),
+                            icon: Icons.description,
+                            text: 'Gov. schemes for PWD')),
+                  ),
+                ],
               ),
             ),
             Padding(
