@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:saksham/constants/modifiedCards.dart';
+import 'package:saksham/screens/map/AddData.dart';
+import 'package:saksham/screens/map/AddData1.dart';
 import 'package:saksham/screens/map/locationServices.dart';
 
 import '../../constants/const.dart';
@@ -63,7 +66,6 @@ class _MapPage2State extends State<MapPage2> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: color1,
         title: Text('Saksham'),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -142,38 +144,55 @@ class _MapPage2State extends State<MapPage2> {
             }
           }
 
-          return Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                        controller: _searchcontroller,
-                        textCapitalization: TextCapitalization.words,
-                        decoration:
-                            InputDecoration(hintText: 'Where do you wanna go?'),
-                        onChanged: (value) {
-                          print(value);
-                        }),
+          return Stack(children: [
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                          controller: _searchcontroller,
+                          textCapitalization: TextCapitalization.words,
+                          decoration: InputDecoration(
+                              hintText: 'Where do you wanna go?'),
+                          onChanged: (value) {
+                            print(value);
+                          }),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          LocationService().getPlace(_searchcontroller.text);
+                        },
+                        icon: Icon(Icons.search)),
+                  ],
+                ),
+                Expanded(
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(16.84597245937883, 74.60139705985866),
+                      zoom: 12,
+                    ),
+                    markers: _markers,
                   ),
-                  IconButton(
-                      onPressed: () {
-                        LocationService().getPlaceId(_searchcontroller.text);
-                      },
-                      icon: Icon(Icons.search)),
-                ],
-              ),
-              Expanded(
-                child: GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(16.84597245937883, 74.60139705985866),
-                    zoom: 12,
-                  ),
-                  markers: _markers,
+                ),
+              ],
+            ),
+            Positioned(
+              left: 320.0,
+              bottom: 20.0,
+              child: FloatingActionButton(
+                backgroundColor: color1,
+                onPressed: () {
+                  Navigator.pushNamed(context, AddDataScreen.id);
+                },
+                child: Icon(
+                  Icons.add_location_alt,
+                  size: 30.0,
+                  color: Colors.white,
                 ),
               ),
-            ],
-          );
+            ),
+          ]);
         },
       ),
     );

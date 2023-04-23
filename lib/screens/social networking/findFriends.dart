@@ -93,7 +93,6 @@ class _FindFriendsState extends State<FindFriends> {
       backgroundColor: backgroundcolor1,
       appBar: AppBar(
         title: Text('Find Friends'),
-        backgroundColor: color1,
       ),
       body: Center(
         child: Container(

@@ -17,7 +17,6 @@ class _InsuranceSchemePageState extends State<InsuranceSchemePage> {
       backgroundColor: backgroundcolor1,
       appBar: AppBar(
         title: Text('Saksham'),
-        backgroundColor: color1,
       ),
       body: Center(
         child: Container(

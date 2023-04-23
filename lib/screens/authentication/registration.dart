@@ -79,33 +79,35 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       hintText: 'Enter your Name'),
                 ),
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.center,
-                      onChanged: (value) {
-                        //Do something with the user input.
-                        age = int.parse(value);
-                      },
-                      decoration: kTextFieldDecoration.copyWith(
-                          hintText: 'Enter your age'),
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        onChanged: (value) {
+                          //Do something with the user input.
+                          age = int.parse(value);
+                        },
+                        decoration: kTextFieldDecoration.copyWith(
+                            hintText: 'Enter your age'),
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.center,
-                      onChanged: (value) {
-                        //Do something with the user input.
-                        gender = value;
-                      },
-                      decoration: kTextFieldDecoration.copyWith(
-                          hintText: 'Enter your Gender'),
+                    Expanded(
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        onChanged: (value) {
+                          //Do something with the user input.
+                          gender = value;
+                        },
+                        decoration: kTextFieldDecoration.copyWith(
+                            hintText: 'Enter your Gender'),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Expanded(
                 child: TextField(
@@ -164,7 +166,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           final newUser =
                               await _auth.createUserWithEmailAndPassword(
                                   email: email, password: password);
-                          _firestore.collection('User').add({
+                          await _firestore
+                              .collection('User')
+                              .doc(_auth.currentUser?.uid)
+                              .set({
+                            'uid': newUser.user?.uid,
                             'name': name,
                             'age': age,
                             'phone': phone,

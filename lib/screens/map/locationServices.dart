@@ -3,26 +3,21 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class LocationService {
-  final String key = 'AIzaSyCqalro7TJ-mLbrn0msk8_lQABX6vQ4tNI';
+  final String key = 'AIzaSyDKv1u2nhfijIPCUwjQOT3s2ct0HQW_56E';
 
-  Future<String> getPlaceId(String input) async {
+  Future<Map<String, dynamic>> getPlace(String input) async {
+    var placeId;
     final String url =
         'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=$input&inputtype=textquery&key=$key';
     var response = await http.get(Uri.parse(url));
     var json = convert.jsonDecode(response.body);
 
-    final placeId = json['candidates']['place_id'] as String;
-    print(json);
-    return placeId;
-  }
-
-  Future<Map<String, dynamic>> getPlace(String input) async {
-    final placeId = getPlaceId(input);
-    final String url =
+    placeId = await json['candidates'][0]['place_id'] as String;
+    final String url1 =
         'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=$key';
-    var response = await http.get(Uri.parse(url));
-    var json = convert.jsonDecode(response.body);
-    var results = json['result'] as Map<String, dynamic>;
+    var response1 = await http.get(Uri.parse(url1));
+    var json1 = convert.jsonDecode(response1.body);
+    var results = json1['result'] as Map<String, dynamic>;
     print(results);
     return results;
   }

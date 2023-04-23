@@ -1,6 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:saksham/constants/const.dart';
 import 'package:saksham/screens/authentication/login.dart';
 import 'package:saksham/screens/authentication/registration.dart';
+import 'package:saksham/screens/map/AddData.dart';
+import 'package:saksham/screens/map/AddData1.dart';
+import 'package:saksham/screens/map/AddPhotos.dart';
 //import 'package:saksham/screens/map/mapFrontend.dart';
 import 'package:saksham/screens/map/mapbackend.dart';
 import 'package:saksham/screens/social%20networking/chattingScreen.dart';
@@ -30,13 +34,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: welcomePage(),
+      title: 'Flutter Demo', //color1 - 34, 29, 70
+      theme:
+          ThemeData(primarySwatch: CustomMaterialColor(145, 145, 225).mdColor),
+      home: AddDataScreen(),
       routes: {
-        // MapPage1.id: (context) => MapPage1(),
+        // AddPhotos.id: (context) => AddPhotos(),
+        AddData1Screen.id: (context) => AddData1Screen(),
+        AddDataScreen.id: (context) => AddDataScreen(),
         MainFile.id: (context) => MainFile(),
         MapPage2.id: (context) => MapPage2(),
         GovSchemesPage.id: (context) => GovSchemesPage(),
