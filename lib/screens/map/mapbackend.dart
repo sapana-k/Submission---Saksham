@@ -1,101 +1,34 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:saksham/constants/modifiedCards.dart';
+import 'package:saksham/constants/bottomNavigationBar.dart';
 import 'package:saksham/screens/map/AddData.dart';
-import 'package:saksham/screens/map/AddData1.dart';
 import 'package:saksham/screens/map/locationServices.dart';
-
 import '../../constants/const.dart';
-import '../social networking/findFriends.dart';
-import '../usefulInfo/mainFile.dart';
 
 var accessible = false;
 
-class MapPage2 extends StatefulWidget {
+class MapPage1 extends StatefulWidget {
   @override
-  static const String id = 'map2_screen';
-  _MapPage2State createState() => _MapPage2State();
+  static const String id = 'map1_screen';
+  _MapPage1State createState() => _MapPage1State();
 }
 
-class _MapPage2State extends State<MapPage2> {
+class _MapPage1State extends State<MapPage1> {
   final Set<Marker> _markers = {};
-  Completer<GoogleMapController> _controller = Completer();
+  //Completer<GoogleMapController> _controller = Completer();
+  late GoogleMapController _mapController;
   TextEditingController _searchcontroller = TextEditingController();
   final _firestore = FirebaseFirestore.instance;
   @override
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Maps',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Find Friends',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: information',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: profile',
-      style: optionStyle,
-    ),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    if (_selectedIndex == 0) {
-      Navigator.pushNamed(context, MapPage2.id);
-    }
-    if (_selectedIndex == 1) {
-      Navigator.pushNamed(context, FindFriends.id);
-    }
-    if (_selectedIndex == 2) {
-      Navigator.pushNamed(context, MainFile.id);
-    }
-  }
 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Saksham'),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: color1,
-        type: BottomNavigationBarType.fixed,
-        unselectedItemColor: Colors.white,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.place,
-            ),
-            label: 'Maps',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.group_add),
-            label: 'Find Friends',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info),
-            label: 'Information',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: color2,
-        onTap: _onItemTapped,
-      ),
+      bottomNavigationBar: MyBottomNavigationBar(selectedIndex: 0),
       body: StreamBuilder<QuerySnapshot>(
         stream: _firestore.collection('Buildings').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -135,9 +68,9 @@ class _MapPage2State extends State<MapPage2> {
                     title: accessible ? 'Accessible' : 'Not Accessible'),
                 icon: accessible
                     ? BitmapDescriptor.defaultMarkerWithHue(
-                        BitmapDescriptor.hueGreen)
+                    BitmapDescriptor.hueGreen)
                     : BitmapDescriptor.defaultMarkerWithHue(
-                        BitmapDescriptor.hueViolet),
+                    BitmapDescriptor.hueViolet),
               );
               _markers.add(marker);
               accessible = false;
@@ -197,4 +130,9 @@ class _MapPage2State extends State<MapPage2> {
       ),
     );
   }
+
+  void _onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+  }
+
 }

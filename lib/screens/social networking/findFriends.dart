@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:saksham/constants/userCard.dart';
+import 'package:saksham/constants/bottomNavigationBar.dart';
+import '../../constants/userCard.dart';
+import 'package:saksham/screens/social%20networking/chattingScreen.dart';
 //import '../../constants/modifiedCards.dart';
 import '../../constants/const.dart';
+import '../../constants/models/userModel.dart';
 import '../map/mapBackend.dart';
 import '../usefulInfo/mainFile.dart';
 //import '../map/mapFrontend.dart';
@@ -16,120 +20,56 @@ class FindFriends extends StatefulWidget {
 }
 
 class _FindFriendsState extends State<FindFriends> {
-  late final String gender;
-  late final String name;
-  late final int age;
-  late final String occupation;
-
-  @override
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Maps',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Find Friends',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: information',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: profile',
-      style: optionStyle,
-    ),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    if (_selectedIndex == 0) {
-      Navigator.pushNamed(context, MapPage2.id);
-    }
-    if (_selectedIndex == 1) {
-      Navigator.pushNamed(context, FindFriends.id);
-    }
-    if (_selectedIndex == 2) {
-      Navigator.pushNamed(context, MainFile.id);
-    }
-  }
 
   final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: color1,
-        type: BottomNavigationBarType.fixed,
-        unselectedItemColor: Colors.white,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.place,
-            ),
-            label: 'Maps',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.group_add),
-            label: 'Find Friends',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info),
-            label: 'Information',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: color2,
-        onTap: _onItemTapped,
-      ),
+      bottomNavigationBar: MyBottomNavigationBar(selectedIndex: 1),
       backgroundColor: backgroundcolor1,
       appBar: AppBar(
-        title: Text('Find Friends'),
+        title: Text('Friends List'),
       ),
-      body: Center(
-        child: Container(
-          margin: EdgeInsets.fromLTRB(20.0, 18.0, 20.0, 18.0),
-          child: ListView(
-            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              StreamBuilder(
-                  stream: _firestore.collection('User').snapshots(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    final allUsers = snapshot.data?.docs;
-                    if (allUsers != null) {
-                      List<UserCard> jobs = [];
-                      for (var j in allUsers) {
-                        jobs.add(UserCard(
-                          name: j['name'],
-                          gender: j['gender'],
-                          age: j['age'],
-                          occupation: j['occupation'],
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection("User")
+              .where('uid',
+                  isNotEqualTo: _auth.currentUser!.uid)
+              .snapshots(),
+          builder: ((context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (!snapshot.hasData) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return ListView.builder(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                UserModel user = UserModel.fromJson(snapshot.data!.docs[index]);
+                return InkWell(
+                  autofocus: true,
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChattingScreen(uid: user.uid),
                         ));
-                      }
-                      return Column(
-                        children: jobs,
-                      );
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          backgroundColor: color1,
-                        ),
-                      );
-                    }
-                  }),
-            ],
-          ),
-        ),
-      ),
+                  },
+                  child: ListTile(
+                    title: Text(user.name),
+                    subtitle: Text(user.email),
+                  ),
+                );
+              },
+            );
+          })),
     );
   }
 }

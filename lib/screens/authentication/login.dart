@@ -6,6 +6,8 @@ import '../../constants/const.dart';
 import '../../constants/modifiedCards.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import '../map/MapPage1.dart';
+
 class LoginScreen extends StatefulWidget {
   static const String id = 'login';
   const LoginScreen({Key? key}) : super(key: key);

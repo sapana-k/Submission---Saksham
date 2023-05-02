@@ -23,10 +23,10 @@ class CustomMaterialColor {
     return MaterialColor(Color.fromRGBO(r, g, b, 1).value, color);
   }
 }
-
+//
 const Color color1 = Color(0xFF221D46);
-Color backgroundcolor1 = Color(0xFFE7E7FF);
-const color2 = Color(0xFF9191E1);
+Color backgroundcolor1 = Color(0xFFEDEDFF);
+const color2 = Color(0xFF9595E2);
 const color3 = Color(0xFF6CC164);
 
 const kSendButtonTextStyle = TextStyle(

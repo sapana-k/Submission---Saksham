@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:saksham/constants/bottomNavigationBar.dart';
 import 'package:saksham/screens/map/mapBackend.dart';
 import 'package:saksham/screens/usefulInfo/RTI.dart';
 import 'package:saksham/screens/usefulInfo/govSchemes.dart';
@@ -20,80 +21,14 @@ class MainFile extends StatefulWidget {
 
 class _MainFileState extends State<MainFile> {
   @override
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Maps',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Find Friends',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: information',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: profile',
-      style: optionStyle,
-    ),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    if (_selectedIndex == 0) {
-      Navigator.pushNamed(context, MapPage2.id);
-    }
-    if (_selectedIndex == 1) {
-      Navigator.pushNamed(context, FindFriends.id);
-    }
-    if (_selectedIndex == 2) {
-      Navigator.pushNamed(context, MainFile.id);
-    }
-    // if(_selectedIndex==3){
-    //   Navigator.pushNamed(context, .id);
-    // }
-  }
 
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: color1,
-        type: BottomNavigationBarType.fixed,
-        unselectedItemColor: Colors.white,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.place,
-            ),
-            label: 'Maps',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.group_add),
-            label: 'Find Friends',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info),
-            label: 'Information',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: color2,
-        onTap: _onItemTapped,
-      ),
+       bottomNavigationBar: MyBottomNavigationBar(selectedIndex: 2),
       backgroundColor: backgroundcolor1,
       appBar: AppBar(
         title: Text('Useful Information'),
-        backgroundColor: color1,
+        backgroundColor: color2,
       ),
       body: Center(
         child: Column(

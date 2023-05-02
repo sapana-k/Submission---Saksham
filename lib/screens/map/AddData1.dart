@@ -6,6 +6,8 @@ import '../../constants/const.dart';
 import '../../constants/modifiedCards.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import 'MapPage1.dart';
+
 List<String> accessibility = [
   'Ramp_for_wheelchair',
   'Accessible_Toilets',

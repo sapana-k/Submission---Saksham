@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:saksham/constants/bottomNavigationBar.dart';
+import 'package:saksham/constants/models/buildingModel.dart';
 import 'package:saksham/screens/authentication/authWelcomePage.dart';
 import 'package:saksham/screens/map/mapBackend.dart';
 import 'package:saksham/screens/usefulInfo/RTI.dart';
@@ -8,6 +10,7 @@ import '../../constants/const.dart';
 import '../../constants/modifiedCards.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'AddPhotos.dart';
+import 'MapPage1.dart';
 
 List<String> accessibility = [
   'Ramp for wheelchair',
@@ -36,12 +39,15 @@ class _AddDataScreenState extends State<AddDataScreen> {
   bool showSpinner = false;
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
-  String name = 'sapana';
-  String address = 'tera ghar';
+  String name = "";
+  String address = "";
   double lat = 27.3516;
   double long = 88.3239;
   int pincode = 411410;
-  String type = 'hotel';
+  String type = "";
+  String email = "";
+  int contact = 0 ;
+
 
   void next() {
     Navigator.pushNamed(context, MapPage2.id);
@@ -51,7 +57,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Add information')),
-      backgroundColor: Colors.white,
+      bottomNavigationBar: MyBottomNavigationBar(selectedIndex: 0),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         child: ListView.builder(
@@ -128,6 +134,65 @@ class _AddDataScreenState extends State<AddDataScreen> {
                       Flexible(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Contact details',
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Flexible(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextFormField(
+                                        keyboardType:
+                                        TextInputType.number,
+                                        onChanged: (value) {
+                                          print(value);
+                                          setState(() {
+                                            contact = int.parse(value);
+                                          });
+                                        },
+                                        decoration: kTextFieldDecoration
+                                            .copyWith(hintText: 'Contact no.'),
+                                      ),
+                                    ),
+                                  ),
+                                  Flexible(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextFormField(
+                                        keyboardType:
+                                        TextInputType.emailAddress,
+                                        onChanged: (value) {
+                                          print(value);
+                                            setState(() {
+                                              email = value;
+                                            });
+                                          },
+                                        decoration: kTextFieldDecoration
+                                            .copyWith(hintText: 'Email'),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: TextFormField(
                             keyboardType: TextInputType.streetAddress,
                             onChanged: (value) {
@@ -172,6 +237,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
                                 ),
                               ),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
                                   Flexible(
                                     child: Padding(
@@ -246,7 +312,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CheckboxListTile(
-                    fillColor: MaterialStateProperty.all(color1),
+                    //fillColor: MaterialStateProperty.all(color1),
                     checkColor: Colors.white,
                     shape: RoundedRectangleBorder(
                         side: const BorderSide(color: color1),
@@ -317,7 +383,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
                                       borderRadius:
                                           BorderRadius.circular(10.0)),
                                   onPressed: () {
-                                    AddPhotos().add();
+                                    Navigator.pushNamed(context, AddPhotos.id);
                                   })
                             ],
                           ),
@@ -338,19 +404,12 @@ class _AddDataScreenState extends State<AddDataScreen> {
                               for (int i = 0; i < _checked.length; i++) {
                                 map[accessibility[i]] = _checked[i];
                               }
+                              String userid = await _auth.currentUser?.uid ?? '';
                               GeoPoint location = GeoPoint(lat, long);
+                              BuildingModel model = BuildingModel(accessibility_features: map, address: address, email: email, location: location, place_name: name, type_of_property: type, uid:userid, zip: pincode, contact: contact);
                               await _firestore
                                   .collection('User_Buildings')
-                                  .add({
-                                'place_name': name,
-                                'type_of_property': type,
-                                'address': address,
-                                'zip': pincode,
-                                'location': location,
-                                'email': _auth.currentUser?.email,
-                                'uid': _auth.currentUser?.uid,
-                                'accessibility_features': map
-                              });
+                                  .add(model.toJson());
                               setState(() {
                                 showSpinner = false;
                               });
@@ -360,7 +419,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
                             }
                           },
                           buttonText: 'Submit',
-                          buttonColor: color2),
+                          buttonColor: color1),
                     ],
                   ),
                 );
