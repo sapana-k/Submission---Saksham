@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'const.dart';
+import 'mediaquery.dart';
 
 class RoundCards extends StatelessWidget {
   IconData icon;
@@ -49,10 +50,10 @@ class tileCard extends StatelessWidget {
         onTap: toDo,
         child: Container(
           constraints: BoxConstraints(
-            maxWidth: 120.0,
-            minWidth: 120.0,
-            maxHeight: 120.0,
-            minHeight: 120.0,
+            maxWidth: media(context).width/4,
+            minWidth: media(context).width/4,
+            maxHeight: media(context).height/5,
+            minHeight: media(context).height/5,
           ),
           child: Padding(
             padding: const EdgeInsets.all(13.0),
@@ -68,8 +69,9 @@ class tileCard extends StatelessWidget {
                 ),
                 Text(
                   text,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 16.0,
+                    fontSize: 18.0,
                     color: color1,
                   ),
                 )

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:saksham/screens/map/mapBackend.dart';
+import 'package:saksham/screens/profile_page.dart';
 import '../../constants/const.dart';
 import '../../constants/modifiedCards.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -66,6 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 40.0,
                   ),
                   TextField(
+                    controller: emaiController,
                     keyboardType: TextInputType.emailAddress,
                     textAlign: TextAlign.center,
                     onChanged: (value) {

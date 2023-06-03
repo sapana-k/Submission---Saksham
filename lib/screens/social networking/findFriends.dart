@@ -9,7 +9,7 @@ import 'package:saksham/screens/social%20networking/chattingScreen.dart';
 import '../../constants/const.dart';
 import '../../constants/models/userModel.dart';
 import '../map/mapBackend.dart';
-import '../usefulInfo/mainFile.dart';
+import '../usefulInfo/usefulInfo.dart';
 //import '../map/mapFrontend.dart';
 
 class FindFriends extends StatefulWidget {
@@ -53,20 +53,26 @@ class _FindFriendsState extends State<FindFriends> {
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
                 UserModel user = UserModel.fromJson(snapshot.data!.docs[index]);
-                return InkWell(
-                  autofocus: true,
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChattingScreen(uid: user.uid),
+                return
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 3.0),
+                    child: InkWell(
+                      autofocus: true,
+                      onTap: (){
+                        Navigator.push(
+                          context
+                        , MaterialPageRoute(
+                        builder: (context) => ChattingScreen(uid: user.uid),
                         ));
-                  },
-                  child: ListTile(
-                    title: Text(user.name),
-                    subtitle: Text(user.email),
-                  ),
-                );
+                      },
+                      child: UserCard(
+                        name: user.name,
+                        gender: user.gender,
+                        occupation: user.occupation,
+                        age: user.age
+                    )
+                ),
+                  );
               },
             );
           })),

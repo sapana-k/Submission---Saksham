@@ -2,6 +2,7 @@
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:saksham/constants/mediaquery.dart';
 import 'package:saksham/screens/authentication/registration.dart';
 import '../../constants/const.dart';
 import '../../constants/modifiedCards.dart';
@@ -43,7 +44,7 @@ class _welcomePageState extends State<welcomePage> {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.values[3],
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
                   margin: EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0.0),
@@ -65,14 +66,13 @@ class _welcomePageState extends State<welcomePage> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 60.0),
+              SizedBox(height: media(context).height/20),
               RoundedButton(
                   buttonColor: color1,
                   buttonText: 'Register',
                   toDo: () {
                     Navigator.pushNamed(context, RegistrationScreen.id);
                   }),
-              SizedBox(height: 2.0),
               RoundedButton(
                   buttonColor: color1,
                   buttonText: 'Login',

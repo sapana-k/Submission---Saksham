@@ -7,6 +7,7 @@ import '../../constants/modifiedCards.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../map/MapPage1.dart';
+import '../profile_page.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String id = 'registration';
@@ -124,6 +125,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               Expanded(
                 child: TextField(
+                  controller: emaiController,
                   keyboardType: TextInputType.emailAddress,
                   textAlign: TextAlign.center,
                   onChanged: (value) {

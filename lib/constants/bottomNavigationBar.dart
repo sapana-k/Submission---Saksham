@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:saksham/screens/profile_page.dart';
 import '../screens/map/MapPage1.dart';
 import '../screens/map/mapBackend.dart';
 import '../screens/social networking/findFriends.dart';
-import '../screens/usefulInfo/mainFile.dart';
+import '../screens/usefulInfo/usefulInfo.dart';
 import 'const.dart';
 
 class MyBottomNavigationBar extends StatefulWidget {
@@ -40,7 +41,10 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
       Navigator.pushNamed(context, FindFriends.id);
     }
     if (selectedIndex == 2) {
-      Navigator.pushNamed(context, MainFile.id);
+      Navigator.pushNamed(context, usefulInfo.id);
+    }
+    if (selectedIndex == 3) {
+      Navigator.pushNamed(context, ProfilePage.id);
     }
   }
 

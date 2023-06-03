@@ -1,11 +1,13 @@
+// import 'dart:html';
+import 'dart:io';
+import 'package:path/path.dart' as path;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:saksham/constants/bottomNavigationBar.dart';
 import 'package:saksham/constants/models/buildingModel.dart';
-import 'package:saksham/screens/authentication/authWelcomePage.dart';
-import 'package:saksham/screens/map/mapBackend.dart';
-import 'package:saksham/screens/usefulInfo/RTI.dart';
 import '../../constants/const.dart';
 import '../../constants/modifiedCards.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -35,6 +37,48 @@ class AddDataScreen extends StatefulWidget {
 
 class _AddDataScreenState extends State<AddDataScreen> {
   List<bool> _checked = List<bool>.filled(accessibility.length, false);
+  List<String> _photos = [];
+  String imageUrl = '';
+  final storage = FirebaseStorage.instance;
+
+  Future<void> _addPhoto(String imageName) async {
+    ImagePicker imagePicker = ImagePicker();
+    XFile? pickedImage = await imagePicker.pickImage(source: ImageSource.camera);
+    print('sapppppp ${pickedImage?.path}');
+    if (pickedImage != null) {
+      //reference for storage root
+      Reference referenceRoot = FirebaseStorage.instance.ref();
+      Reference referenceDirImages = referenceRoot.child('images');
+      //reference for image to be uploaded
+      Reference referenceImageToUpload = referenceDirImages.child(imageName);
+
+      try{
+        //store file
+        await referenceImageToUpload.putFile(File(pickedImage.path));
+        //get download url
+        imageUrl = await referenceImageToUpload.getDownloadURL();
+
+      }
+      catch(e){
+  print('heyyyy boo u failed ');
+      }
+    }
+    // if (pickedImage != null) {
+    //   setState((){
+    //     _photos.add(pickedImage.path);
+    //
+    //   });
+    //   final filePath = pickedImage.path;
+    //   final storageRef = storage.ref();
+    //   storageRef.putFile(pickedImage as File);
+    //
+    //   String fileName = path.basename(filePath);
+    //   final ref = storage.ref()
+    //       .child("userAddedImages");
+    //   await ref.putFile(File(filePath));
+    //   final downloadURL = await ref.getDownloadURL();
+    // }
+  }
 
   bool showSpinner = false;
   final _firestore = FirebaseFirestore.instance;
@@ -311,19 +355,51 @@ class _AddDataScreenState extends State<AddDataScreen> {
               if (i <= _checked.length) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: CheckboxListTile(
-                    //fillColor: MaterialStateProperty.all(color1),
-                    checkColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        side: const BorderSide(color: color1),
-                        borderRadius: BorderRadius.circular(10.0)),
-                    value: _checked[i - 1],
-                    onChanged: (bool? v) {
-                      setState(() {
-                        _checked[i - 1] = v!;
-                      });
-                    },
-                    title: Text(accessibility[i - 1]),
+                  child: Column(
+                    children: [
+                      CheckboxListTile(
+                        //fillColor: MaterialStateProperty.all(color1),
+                        checkColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            side: const BorderSide(color: color1),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        value: _checked[i - 1],
+                        onChanged: (bool? v) {
+                          setState(() {
+                            _checked[i - 1] = v!;
+                          });
+                        },
+                        title: Text(accessibility[i - 1]),
+                      ),
+                      if (_checked[i - 1])
+                        ElevatedButton(
+                          onPressed: () async{
+                            ImagePicker imagePicker = ImagePicker();
+                            XFile? pickedImage = await imagePicker.pickImage(source: ImageSource.camera);
+                            print('sapppppp ${pickedImage?.path}');
+                            if (pickedImage != null) {
+                              //reference for storage root
+                              Reference referenceRoot = FirebaseStorage.instance.ref();
+                              Reference referenceDirImages = referenceRoot.child('UserContributedImages');
+                              //reference for image to be uploaded
+                              Reference referenceImageToUpload = referenceDirImages.child(accessibility[i - 1]);
+
+                              try{
+                                //store file
+                                await referenceImageToUpload.putFile(File(pickedImage.path));
+                                //get download url
+                                imageUrl = await referenceImageToUpload.getDownloadURL();
+
+                              }
+                              catch(e){
+                                print('heyyyy boo u failed ');
+                              }
+                            }
+                          },
+                          child: Text('Add Photo'),
+                        ),
+
+                    ],
                   ),
                 );
               }
@@ -420,6 +496,21 @@ class _AddDataScreenState extends State<AddDataScreen> {
                           },
                           buttonText: 'Submit',
                           buttonColor: color1),
+                      // Expanded(
+                      //   child: ListView.builder(
+                      //     itemCount: _photos.length,
+                      //     itemBuilder: (context, index) {
+                      //       return ListTile(
+                      //         leading: Image.file(
+                      //           File(_photos[index]),
+                      //           width: 50,
+                      //           height: 50,
+                      //           fit: BoxFit.cover,
+                      //         ),
+                      //       );
+                      //     },
+                      //   ),
+                      // ),
                     ],
                   ),
                 );
