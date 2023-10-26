@@ -15,18 +15,21 @@ To get started with the Code-with-Google-Maps-2023 repository, follow these step
 
 ### README.md must consist of the following information:
 
-#### Team Name -
+#### Team Name - Saksham
 #### Problem Statement - 
-#### Team Leader Email -
+#### Team Leader Email - sapanakhedkar957@gmail.com
 
 ### A Brief of the Prototype:
-  This section must include UML Diagrams and prototype description
-  
+  Saksham is an app that helps users find whether a particular building has accessibility features for physically challenged people or not, and navigate to them easily using Google Maps API. The app will display information on a building's accessibility provisions on the map, which will be obtained from the building owners who register on the Saksham web portal or even through app.
+Users can also provide feedback on a building's accessibility features, which can help other users and the building owners to improve accessibility. Users can find friends and chat with them, thus providing a safe space community.
+The app would also provide general information about various government schemes for PWDs and NGO Support
+
 ### Tech Stack: 
-   List Down all technologies used to Build the prototype
+   Flutter, Firebase, Google Maps API
    
 ### Step-by-Step Code Execution Instructions:
-  This Section must contain a set of instructions required to clone and run the prototype so that it can be tested and deeply analyzed
+  just download or clone the github link https://github.com/sapana-k/Saksham
   
 ### Future Scope:
-   Write about the scalability and futuristic aspects of the prototype developed
+   object detection model needs to be added to prototype to validate images of accessibilty features.
+   navigation functionality needs to be added. 
