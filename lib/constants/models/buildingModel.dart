@@ -23,7 +23,7 @@ class BuildingModel {
    String uid;
    int zip;
    int contact;
-
+   //List<String> imageUrl = [];
 
    BuildingModel({
    required this.accessibility_features,
@@ -34,7 +34,8 @@ class BuildingModel {
    required this.type_of_property,
    required this.uid,
    required this.zip,
-   required this.contact
+   required this.contact,
+  //required this.imageUrl,
    });
 
   Map<String, dynamic> toJson() {
@@ -48,6 +49,7 @@ class BuildingModel {
     "zip" : zip,
     "contact" : contact,
      "uid" : uid,
+   //   "imageUrl" : imageUrl
     };
   }
 
@@ -62,6 +64,7 @@ class BuildingModel {
       zip : map["zip"],
       contact : map["contact"],
       uid : map["uid"],
+     //   imageUrl: map["imageUrl"]
     );
   }
 }

@@ -37,48 +37,8 @@ class AddDataScreen extends StatefulWidget {
 
 class _AddDataScreenState extends State<AddDataScreen> {
   List<bool> _checked = List<bool>.filled(accessibility.length, false);
-  List<String> _photos = [];
-  String imageUrl = '';
+  List<String> imageUrl = List<String>.filled(accessibility.length, "");
   final storage = FirebaseStorage.instance;
-
-  Future<void> _addPhoto(String imageName) async {
-    ImagePicker imagePicker = ImagePicker();
-    XFile? pickedImage = await imagePicker.pickImage(source: ImageSource.camera);
-    print('sapppppp ${pickedImage?.path}');
-    if (pickedImage != null) {
-      //reference for storage root
-      Reference referenceRoot = FirebaseStorage.instance.ref();
-      Reference referenceDirImages = referenceRoot.child('images');
-      //reference for image to be uploaded
-      Reference referenceImageToUpload = referenceDirImages.child(imageName);
-
-      try{
-        //store file
-        await referenceImageToUpload.putFile(File(pickedImage.path));
-        //get download url
-        imageUrl = await referenceImageToUpload.getDownloadURL();
-
-      }
-      catch(e){
-  print('heyyyy boo u failed ');
-      }
-    }
-    // if (pickedImage != null) {
-    //   setState((){
-    //     _photos.add(pickedImage.path);
-    //
-    //   });
-    //   final filePath = pickedImage.path;
-    //   final storageRef = storage.ref();
-    //   storageRef.putFile(pickedImage as File);
-    //
-    //   String fileName = path.basename(filePath);
-    //   final ref = storage.ref()
-    //       .child("userAddedImages");
-    //   await ref.putFile(File(filePath));
-    //   final downloadURL = await ref.getDownloadURL();
-    // }
-  }
 
   bool showSpinner = false;
   final _firestore = FirebaseFirestore.instance;
@@ -383,13 +343,11 @@ class _AddDataScreenState extends State<AddDataScreen> {
                               Reference referenceDirImages = referenceRoot.child('UserContributedImages');
                               //reference for image to be uploaded
                               Reference referenceImageToUpload = referenceDirImages.child(accessibility[i - 1]);
-
                               try{
                                 //store file
                                 await referenceImageToUpload.putFile(File(pickedImage.path));
                                 //get download url
-                                imageUrl = await referenceImageToUpload.getDownloadURL();
-
+                                imageUrl[i-1] = await referenceImageToUpload.getDownloadURL();
                               }
                               catch(e){
                                 print('heyyyy boo u failed ');
@@ -398,7 +356,6 @@ class _AddDataScreenState extends State<AddDataScreen> {
                           },
                           child: Text('Add Photo'),
                         ),
-
                     ],
                   ),
                 );
@@ -476,13 +433,17 @@ class _AddDataScreenState extends State<AddDataScreen> {
                               showSpinner = true;
                             });
                             try {
+                              for(int i=0;i<imageUrl.length;i++){
+                                print(imageUrl[i]);
+                              }
                               Map<String, bool> map = Map<String, bool>();
                               for (int i = 0; i < _checked.length; i++) {
                                 map[accessibility[i]] = _checked[i];
                               }
                               String userid = await _auth.currentUser?.uid ?? '';
                               GeoPoint location = GeoPoint(lat, long);
-                              BuildingModel model = BuildingModel(accessibility_features: map, address: address, email: email, location: location, place_name: name, type_of_property: type, uid:userid, zip: pincode, contact: contact);
+                              BuildingModel model = BuildingModel(accessibility_features: map, address: address, email: email, location: location, place_name: name, type_of_property: type, uid:userid, zip: pincode, contact: contact
+                              );
                               await _firestore
                                   .collection('User_Buildings')
                                   .add(model.toJson());

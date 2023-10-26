@@ -47,7 +47,9 @@ class _MapPage2State extends State<MapPage2> {
             if (allbuildings != null) {
               for (var building in allbuildings) {
                 bool accessible = checkIfAccessible(building);
+
                 placeMapModel placeModel = placeMapModel.fromJson(building);
+
                 final marker = Marker(
                     markerId: MarkerId(placeModel.place_name),
                     position: LatLng(placeModel.location.latitude,
@@ -88,18 +90,19 @@ class _MapPage2State extends State<MapPage2> {
                                       ]);
                                     }
                                     return ListTile(
+                                      leading: placeModel.accessibility_features[
+                                      accessibilityList[i - 1]]
+                                          ? Icon(
+                                        Icons.check,
+                                        color: Colors.green,
+                                      )
+                                          : Icon(
+                                        Icons.close,
+                                        color: Colors.red,
+                                      ),
                                         title: Text(accessibilityList[i - 1]),
-                                        trailing:
-                                            placeModel.accessibility_features[
-                                                    accessibilityList[i - 1]]
-                                                ? Icon(
-                                                    Icons.check,
-                                                    color: Colors.green,
-                                                  )
-                                                : Icon(
-                                                    Icons.close,
-                                                    color: Colors.red,
-                                                  ));
+                                        trailing: Image.network('https://firebasestorage.googleapis.com/v0/b/saksham-8f9e0.appspot.com/o/UserContributedImages%2FAccessible%20reception?alt=media&token=112973d3-191e-460a-9f6d-36c6a750e380&_gl=1*oo0cto*_ga*MjAwMDAyNzg5MS4xNjcwMzI2MzI4*_ga_CW55HF8NVT*MTY4NTgyMDMzMS4yOC4xLjE2ODU4MjE4OTUuMC4wLjA.')
+                                            );
                                   }),
                             );
                           });

@@ -26,7 +26,7 @@ class placeMapModel {
   String uid = "";
   GeoPoint location;
   Map<String, dynamic> accessibility_features;
-
+ // List<String> imageUrl = [];
 
   placeMapModel({
     required this.place_name,
@@ -36,7 +36,9 @@ class placeMapModel {
     required this.location,
     required this.zip,
     required this.email,
-    required this.accessibility_features, required this.uid,
+    required this.accessibility_features,
+    required this.uid,
+   // required this.imageUrl,
   });
 
   Widget info() {
@@ -72,7 +74,8 @@ class placeMapModel {
       "uid" : uid,
       "email" : email,
       "type_of_property" : type_of_property,
-      "location" : location
+      "location" : location,
+    //  "imageUrl" : imageUrl
     };
   }
 
@@ -86,7 +89,8 @@ class placeMapModel {
       uid : map["uid"],
       email : map["email"],
       zip: map["zip"],
-      location: map["location"]
+      location: map["location"],
+      //  imageUrl: map["imageUrl"]
     );
   }
 }
